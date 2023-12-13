@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>E-commerce - Website</title>
+    <!--Style-->
+    <link rel="stylesheet" href="style.css" />
+    <!--Box Icons-->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <!--AlpineJS-->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="app.js"></script>
+  </head>
+  <body>
+    <!---Nav--->
+    <nav x-data="cart">
+      <a href="#" class="logo">Ecommerce</a>
+      <div class="nav-right">
+        <i class="bx bx-shopping-bag" id="cart-icon"></i>
+        <span class="quantity-badge" x-show="$store.cart.quantity" x-text="$store.cart.quantity"></span>
+      </div>
+      <!---Cart--->
+      <div class="cart">
+        <h2 class="cart-title">Your Cart</h2>
+        <template x-for="(item, index) in $store.cart.items" x-key="index">
+          <div class="cart-content">
+            <img :src="`images/${item.img}`" class="cart-img" />
+            <div class="box-detail">
+              <div class="cart-product-title" x-text="item.name"></div>
+              <div class="cart-price">
+                <span x-text="dollar(item.price)"></span> &times;
+                <button id="remove" @click="$store.cart.remove(item.id)">&minus;</button>
+                <span x-text="item.quantity"></span>
+                <button id="add" @click="$store.cart.add(item)">&plus;</button> &equals;
+                <span x-text="dollar(item.total)"></span>
+              </div>
+            </div>
+            <i class="bx bxs-trash-alt cart-remove" @click="$store.cart.delete(item)"></i>
+          </div>
+        </template>
+        <div class="total-container">
+          <div class="total-title">Total</div>
+          <div class="total-price" x-text="dollar($store.cart.total)"></div>
+        </div>
+        <button class="btn-buy" x-show="$store.cart.items.length">Buy Now</button>
+        <i class="bx bx-x cart-close"></i>
+      </div>
+    </nav>
+    <!---Section--->
+    <section class="container" x-data="products">
+      <h2 class="section-title">Shop Products</h2>
+      <div class="shop-content">
+        <template x-for="(item, index) in items" x-key="index">
+          <div class="product-box">
+            <img :src="`images/${item.img}`" alt="" class="product-img" />
+            <div class="product-detail">
+              <h2 class="product-title" x-text="item.name"></h2>
+              <span class="price" x-text="dollar(item.price)"></span>
+              <i class="bx bx-shopping-bag add-cart" @click="$store.cart.add(item)"></i>
+            </div>
+          </div>
+        </template>
+      </div>
+    </section>
+    <script src="script.js"></script>
+  </body>
+</html>
